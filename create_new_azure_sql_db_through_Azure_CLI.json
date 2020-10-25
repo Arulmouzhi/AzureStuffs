@@ -1,0 +1,26 @@
+#Azure CLI code (in Bash mode)
+
+locationname="East US"
+uniquename=new1996-$RANDOM
+
+resourcegroupname="resource-$uniquename"
+servername="server-$uniquename"
+databasename="database-$uniquename"
+
+login="TestLogin"
+password="TestPassword123!"
+
+echo "Creating ResourceGroup..."
+az group create --name $resourcegroupname --location "$locationname"
+
+echo "Creating Server..."
+az sql server create --name $servername --resource-group $resourcegroupname --location "$locationname" --admin-user $login --admin-password $password
+
+# If both startIP and endIP is equal to '0.0.0.0', means 'Allow Azure services and resources to access this server' set to 'Yes'
+echo "Configuring firewall..."
+az sql server firewall-rule create -g $resourcegroupname -s $servername -n MyRule --start-ip-address 0.0.0.0 --end-ip-address 0.0.0.0
+
+echo "Creating Database..."
+az sql db create --resource-group $resourcegroupname --server $servername --name $databasename --edition basic --service-objective basic 
+
+echo "Kudos, We have successfully created our Azure SQL DB through Azure CLI!"
