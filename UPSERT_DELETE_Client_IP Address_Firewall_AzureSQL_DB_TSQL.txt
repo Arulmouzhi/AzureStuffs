@@ -1,0 +1,60 @@
+--SERVER FIREWALL RULE (we need to be in MASTER database while running below query)
+
+--To see full list of SERVER's firewall 
+SELECT * FROM sys.firewall_rules;
+
+--To see SERVER's firewall named 'Test_Server_Rule'
+SELECT * FROM sys.firewall_rules WHERE [name]='Test_Server_Rule';
+
+--To ADD SERVER's firewall
+EXECUTE sp_set_firewall_rule N'Test_Server_Rule', '106.217.4.193', '106.217.4.193';
+--	where parameters are - firewall name(@name), start ip address (@start_ip_address) and end ip address (@end_ip_address).
+
+--To see SERVER's firewall named 'Test_Server_Rule'
+SELECT * FROM sys.firewall_rules WHERE [name]='Test_Server_Rule';
+
+--To EDIT SERVER's firewall
+EXECUTE sp_set_firewall_rule N'Test_Server_Rule', '106.217.4.194', '106.217.4.194';
+--	where parameters are - firewall name(@name), start ip address (@start_ip_address) and end ip address (@end_ip_address).
+
+--To see SERVER's firewall named 'Test_Server_Rule'
+SELECT * FROM sys.firewall_rules WHERE [name]='Test_Server_Rule';
+
+--To Delete SERVER's firewall
+EXECUTE sp_delete_firewall_rule N'Test_Server_Rule';
+
+--To see SERVER's firewall named 'Test_Server_Rule'
+SELECT * FROM sys.firewall_rules WHERE [name]='Test_Server_Rule';
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+--DATABASE FIREWALL RULE (we need to be in Particular database while running below query)
+
+--To see full list of DATABASE's firewall 
+SELECT * FROM sys.database_firewall_rules;
+
+--To see DATABASE's firewall named 'Test_Database_Rule'
+SELECT * FROM sys.database_firewall_rules WHERE [name]='Test_Database_Rule';
+
+--To ADD DATABASE's firewall
+EXECUTE sp_set_database_firewall_rule N'Test_Database_Rule', '106.217.4.193', '106.217.4.193';
+--	where parameters are - firewall name(@name), start ip address (@start_ip_address) and end ip address (@end_ip_address).
+
+--To see DATABASE's firewall named 'Test_Database_Rule'
+SELECT * FROM sys.database_firewall_rules WHERE [name]='Test_Database_Rule';
+
+--To EDIT DATABASE's firewall
+EXECUTE sp_set_database_firewall_rule N'Test_Database_Rule', '106.217.4.194', '106.217.4.194';
+--	where parameters are - firewall name(@name), start ip address (@start_ip_address) and end ip address (@end_ip_address).
+
+--To see DATABASE's firewall named 'Test_Database_Rule'
+SELECT * FROM sys.database_firewall_rules WHERE [name]='Test_Database_Rule';
+
+--To Delete DATABASE's firewall
+EXECUTE sp_delete_database_firewall_rule N'Test_Database_Rule';
+
+--To see DATABASE's firewall named 'Test_Database_Rule'
+SELECT * FROM sys.database_firewall_rules WHERE [name]='Test_Database_Rule';
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
