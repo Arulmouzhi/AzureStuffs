@@ -7,6 +7,7 @@ Code Share of Azure Learning Stuffs
 ### Files
 * create new azure sql db through Azure CLI json file
 * tsql query file to upsert and delete azure firewall for azure sql db
+* create new azure sql db through Windows PowerShell file
 
 <br />
 
