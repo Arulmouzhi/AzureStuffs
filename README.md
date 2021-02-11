@@ -9,6 +9,9 @@ Code Share of Azure Learning Stuffs
 * tsql query file to upsert and delete azure firewall for azure sql db
 * create new azure sql db through Windows PowerShell file
 
+* covid_dataset-sample and batch data processing in azure
+[![Header](https://raw.githubusercontent.com/Arulmouzhi/AzureStuffs/coviddataset_batchdataprocess_azure/covid_visual_pbi.png "Header")](https://arulmouzhi.wordpress.com/)
+
 <br />
 
 ---
