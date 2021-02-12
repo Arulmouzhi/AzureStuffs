@@ -13,9 +13,38 @@ Code Share of Azure Learning Stuffs
 
 * covid_dataset-sample and batch data processing in azure
 
+#### 1 - csvfiledata
 <br />
 
-![](https://user-images.githubusercontent.com/65807570/107777280-9e9c4580-6d68-11eb-9033-07f0629ea5d2.png)
+![](https://user-images.githubusercontent.com/65807570/107780261-77e00e00-6d6c-11eb-88f0-1a2571ec4fb7.png)
+
+<br />
+
+#### 2 - csvfile_at_blob
+<br />
+
+![](https://user-images.githubusercontent.com/65807570/107780297-84646680-6d6c-11eb-9ec7-102fb558fb93.png)
+
+<br />
+
+#### 3 - scalascript_at_ADB
+<br />
+
+![](https://user-images.githubusercontent.com/65807570/107780331-91815580-6d6c-11eb-90cd-055f7cce1051.png)
+
+<br />
+
+#### 4 - sqlquery_at_AzureSQLDB
+<br />
+
+![](https://user-images.githubusercontent.com/65807570/107780381-a0680800-6d6c-11eb-9148-c79d5b78fee8.png)
+
+<br />
+
+#### 5 - pbivisual_at_pbidesktop
+<br />
+
+![](https://user-images.githubusercontent.com/65807570/107780468-b70e5f00-6d6c-11eb-8b06-2a1604928eff.png)
 
 <br />
 
