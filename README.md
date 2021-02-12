@@ -15,7 +15,7 @@ Code Share of Azure Learning Stuffs
 
 <br />
 
-![](./coviddataset_batchdataprocess_azure/Images/covid_visual_pbi.png)
+![](https://user-images.githubusercontent.com/65807570/107777280-9e9c4580-6d68-11eb-9033-07f0629ea5d2.png)
 
 <br />
 
