@@ -1,0 +1,54 @@
+%sql 
+drop database if exists demodb cascade; --cascade here helps to dropDatabase even if table/objects exists within db.
+create database demodb;
+
+%python --SparkContext ( Version: v3.0.1 ; Master: local[8] ; AppName: Databricks Shell )
+sc
+
+%sql 
+use demodb;
+
+%sql 
+drop table if exists dimdate;
+create table dimdate using csv options (
+  path = "/FileStore/tables/dimdate.csv",
+  header = "true",
+  inferSchema = "true"
+);
+
+%sql
+select
+  *
+from
+  dimdate
+limit
+  2;
+  
+%sql 
+create or replace view vdimdate as
+select
+  datekey,
+  datefull
+from
+  dimdate;
+  
+%sql 
+create table ctastable as select --ctas
+  datekey,
+  datefull,
+  yearofdate
+from
+  dimdate;
+  
+%sql 
+show tables;
+
+--Notes:
+-- Databricks Community Edition is free to learn that provides [0 Workers] & [1 Driver: 15.3 GB Memory, 2 Cores, 1 DBU]. 
+-- Databricks RunTime.
+-- Databricks File System (DBFS): local storage. 
+-- %sql alone is correct and %SQL is wrong.
+-- File names are caseSensitive in file paths.
+-- showing the first 1000 rows --> display() --> spark favors us by this approach of paginations behind, so perf is well.
+-- No Code but Data Visualizations? --> when we say [Customize Plot] option--> "Apply", it re-submits our query by considering all billions of rows.
+-- Ctrl+Shift+F is used to Format SQL Code.
