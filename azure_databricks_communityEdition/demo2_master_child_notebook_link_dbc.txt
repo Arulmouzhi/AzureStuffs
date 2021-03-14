@@ -6,7 +6,7 @@
 %sql 
 drop table if exists dimdate1;
 create table dimdate1 using csv options (
-  path = "/FileStore/tables/dimdate1.csv",
+  path = "/FileStore/tables/dimdate.csv",
   header = "true",
   inferSchema = "true"
 );
