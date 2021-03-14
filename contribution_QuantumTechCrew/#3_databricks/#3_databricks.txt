@@ -1,0 +1,4 @@
+Guess🧐 What is the result and why? Yup, it's simple!
+
+--Answer
+here it will produce err, bcaz %sql is crt whereas %SQL is wrong. Magic commands in databricks notebook are case sensitive.
