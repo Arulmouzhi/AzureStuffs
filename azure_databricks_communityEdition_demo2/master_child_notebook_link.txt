@@ -1,0 +1,26 @@
+--"demo1" notebook [master for example]
+
+--[DATA tab --> Create New Table --> Upload File and copy file path and use that filepath in below query]
+
+--if we dont mention db name, it will create table in default db
+%sql 
+drop table if exists dimdate1;
+create table dimdate1 using csv options (
+  path = "/FileStore/tables/dimdate1.csv",
+  header = "true",
+  inferSchema = "true"
+);
+
+
+--"demo2" notebook [child for example]
+
+--create link (like below) between master and child notebooks
+%run "/Users/********@****.com/demo1"
+
+%sql
+select
+  *
+from
+  dimdate1
+limit
+  2;
