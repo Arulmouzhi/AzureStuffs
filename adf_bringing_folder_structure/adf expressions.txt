@@ -10,7 +10,7 @@ split(split(item().name,'_')[1],'-')[0],'/',	--	2020
 split(split(item().name,'_')[1],'-')[1],'/',	--	12
 split(split(split(item().name,'_')[1],'-')[2],'.')[0])	--	07
 
---File level [sourcebinary]
+--File level [targetbinary]
 @item().name
 
 --Foreach Activity level
