@@ -1,0 +1,22 @@
+CI CD steps for Azure SQL Database
+
+1. Create 2 Azure SQL Databases for dev as well as prod [portal.azure.com]. [test db's] . also give required firewall accesses [1.Allow Azure services and resources to access this server + 2.Client IP address]
+2. Create Github new repos for test[open Github account if don't have any - free only] and use 'git' to locally clone it. [git clone <url>] . Also go to Marketplace and install microsoft's 'Azure pipelines'.
+3. In SSMS, in dev db , create .dacpac file first. [object explorer --> right click dev db and Tasks-->EXTRACT data-tier application] choose path and copy that .dacpac file that is used to create both .sln as well as used in CI steps.
+4. In Visual Studio [any version is okay but recommended is 2019 version], create new sql server database project and choose project and right click and Import--> browse/load .dacpac file . then do build and deploy solutions. [the .sln file generated which is important in CI steps] 
+	if <2019 version is used in Vs, go to 'SQLPROJ File (.sqlproj)' and change as '<DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureV12DatabaseSchemaProvider</DSP>'
+5. Go to Azure Devops [dev.azure.com] and create 1 test project under organization. within organization's project, go to Pipelines-->pipelines--> New pipeline.
+   <follow CI folder pics attached>
+6. Within project, go to Pipelines-->Releases--> + New Release Pipeline.
+	Select a template as Empty job and give stage name and click save and ok. then Add an artifact and choose 'CI pipeline' there and click Add.
+	Select tasks within stage, under Agent Job, choose microsoft's  'Azure SQL Database Deployment' and click Add. Then choose subscription,server, database, login and password with .dacpac path.
+	default .dacpac file path url for CD processes: $(System.DefaultWorkingDirectory)/_TestProject-CI/drop/s/Database2/Database2/bin/Debug/Database2.dacpac 
+	regarding login and password, we can create pipeline variables under variables tab and give there key-value pairs and secure values by locking.
+    Enable 'Continuous deployment trigger' in artifact section with no filters.
+	Select Trigger as 'After release' under dev stage's 'Pre-deployment conditions'.
+	Select Trigger as 'After stage' as well as choose 'dev' as stages & tick mark the 'Trigger even when the selected stages partially succeed' & under prod stage's 'Pre-deployment conditions'.	
+   <check CD folder pics attached>
+   
+-- To check:
+Make code changes in local and push to local branch and raise PR for master/main. 
+Once PR is approved, CI will initiate and after successful CI step, CD will initiate and deploy codes in dev stage and then prod stage as well.
