@@ -1,0 +1,330 @@
+py --version
+py -3
+print('Hello World!')
+exit()
+
+print("First Number:")
+first_number = int(input())
+print("Second Number:")
+second_number = int(input())
+sum = first_number + second_number
+print("Sum: " + str(sum))
+
+python naming standard: [all small letters separated by _]
+inventory_count
+
+print(type(7))
+print(bool('')) #False
+print(bool(0)) #False 
+
+logical operators : and, or, not 
+
+ninth_string = r"A literal string with a \n new line character printed raw" # raw output
+print(ninth_string) 
+
+first = 'Conrad'
+second = 'Grant'
+third = 'Bob'
+print(first, second)
+print(first, second, third)
+print(first, second, third, sep='-')
+print(first, second, third, sep='-', end='.')
+
+print(isinstance('7', str)) 
+print(type('7') == str)
+# True
+print(isinstance(7, str)) 
+print(type(7) == str)
+# False 
+
+message = str.capitalize('first message')
+print(message)
+# First message
+
+Copy
+message = 'hello world'
+print(message.lower()) #upper() #title() #swapcase()
+
+location = 'Mississippi'
+print(location.count('s')) #4
+
+print(len('how many characters in this string?')) #35
+
+message = 'racecar'
+print(message.startswith('ra')) #True
+print(message.endswith('ar')) #True
+
+
+def say_hello(name='World', greeting=None):
+  if greeting == None:
+    print(f'Hello {name}!')
+  else:
+    print(f'{greeting} {name}!')
+say_hello()
+say_hello('Bob')
+say_hello(greeting='Howdy')
+say_hello('Bob', 'Howdy')
+
+print(type(None)) # <class 'NoneType'>
+
+def add_two_numbers(x, y):
+    return x + y
+add_two_numbers(4, 6)
+result = add_two_numbers(5, 7)
+print(result) #12 
+
+isalnum()	Ensures that the string has no special characters, such as %, $, #, @, or !.
+isalpha()	Ensures that the string contains only letters of the alphabet.
+isdecimal()	Ensures that the string contains only decimal values (numbers).
+istitle()	Ensures that the string follows the rules of capitalization (as in a sentence).
+isupper()	Ensures that the string contains only uppercase letters.
+islower()	Ensures that the string contains only lowercase letters.
+isnumeric() Ensures that the string contains only numeric.
+
+first_value = input('First Number: ')
+second_value = input('Second Number: ')
+if first_value.isnumeric() == False or second_value.isnumeric() == False:
+    print('Please enter numbers only.')
+    exit()
+first_value = int(first_value)
+second_value = int(second_value)
+sum = first_value + second_value
+print('Sum: ' + str(sum))
+
+round() function provides a way to perform rounding and conversion from a float value into an int value.
+
+second_value = round(9.87654, 3)
+print(second_value) # 9.877
+
+# Fahrenheit to Celsius
+celsius = (fahrenheit - 32) * 5/9
+
+import random as dice
+roll = dice.randint(1, 10)
+print(f'You rolled {roll}') #You rolled 6.
+
+find() method locates the zero-based position of one string inside another string. In other words, starting with the number 0, the method tells you where the search string is located. If it can't find the string, it returns -1.
+
+message = 'The quick brown fox jumps over the lazy dog'
+print(message.find('q')) #4
+print(message.find('Q')) #-1
+print(message.find('T')) #0 
+
+# emoji 
+py -m pip install emoji
+import emoji
+message = emoji.emojize('Howdy :sun_with_face:')
+print(message)
+
+message = '    middle     '
+print('.' + message.lstrip() + '.')
+print('.' + message.rstrip() + '.')
+print('.' + message.strip() + '.')
+
+message = 'brevity is the essence of wit'
+message = message.replace('essence', 'soul')
+print(message)
+
+message = 'howdy'
+print(message.rjust(20))  #               howdy
+print(message.rjust(20, '-')) #---------------howdy
+print(message.ljust(20)) #howdy
+print(message.ljust(20, '-')) # howdy---------------
+
+import random 
+roll = 0
+count = 0
+print('First person to roll a 5 wins!')
+while roll != 5:
+  name = input('Enter a name, or \'q\' to quit:  ' )
+  if name.strip() == '':
+    continue
+  if name.strip() == 'q':
+      break
+   count = count + 1
+  roll = random.randint(1, 5)
+  print(f'{name} rolled {roll}')
+else:
+    print(f'{name} Wins!!!')
+print(f'You rolled the dice {count} times.')
+
+=	Assign
++=	Add then assign
+-=	Subtract then assign
+*=	Multiply then assign
+/=	Divide then assign
+%=	Get the modulus then assign
+**=	Perform exponent then assign
+//=	Perform floor division then assign 
+
+import random
+value = random.randint(1, 10)
+count = 0
+guess = 0
+print('Guess a number between 1 and 10')
+while guess != value:
+    count += 1
+    guess = input(f'Enter guess #{count}: ')
+    if guess.isnumeric():
+        guess = int(guess)
+    else:
+        print('Numbers only, please!')
+        continue
+    if guess > value:
+        print('Your guess is too high, try again!')
+    elif guess < value:
+        print('Your guess is too low, try again!')
+else:
+    print(f'You guessed it in {count} tries!')
+
+Which statement should you use to handle the case where the while Boolean expression is no longer True? --> The else statement.
+
+colors = ['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'brown']
+# print(colors)
+# print(type(colors))
+print(f'0-based indexing into the list ... second item: {colors[1]}')
+print(f'Last item of the list: {colors[-1]}')
+print(f'Next to last item in the list: {colors[-2]}')	
+print(colors[99]) # IndexError: list index out of range
+
+colors.reverse()
+print(colors)
+colors.sort()
+print(colors)
+
+pop() helper function takes the item at the index that you pass in as an argument. It removes the item from the list.
+
+append() helper function adds an item to the list.
+remove() helper function removes an item in the list.
+colors.append('black')
+colors.remove('yellow')
+colors.remove('whatever') # ValueError: list.remove(x): x not in list
+
+extend() helper function adds elements from a list that you pass in as an argument.
+
+new_colors = ['lime', 'gray']
+colors.extend(new_colors)
+print(colors)
+
+To remove all items from a list, call the clear() function.
+colors.clear()
+
+numbers = [42, 77, 16, 101, 23, 8, 4, 15, 55]
+numbers.sort()
+for number in numbers:
+  if number > 42:
+    break
+  print(number)
+
+format() helper function merges values into a literal string template
+
+medicine = 'Coughussin'
+dosage = 5
+duration = 4.5
+instructions = '{} - Take {} ML by mouth every {} hours'.format(medicine, dosage, duration)
+print(instructions)
+instructions = '{2} - Take {1} ML by mouth every {0} hours'.format(medicine, dosage, duration)
+print(instructions)
+instructions = '{medicine} - Take {dosage} ML by mouth every {duration} hours'.format(medicine = 'Sneezergen', dosage = 10, duration = 6)
+print(instructions)
+
+name = 'World'
+message = f'Hello, {name}.'
+print(message)
+
+width = 5
+height = 10
+print(f'The perimeter is {(2 * width) + (2 * height)} and the area is {width * height}.')
+# The perimeter is 30 and the area is 50. 
+
+# alignment 
+value = 'hi'
+print(f'.{value:<25}.')   # .hi                       .
+print(f'.{value:>25}.')   # .                       hi.
+print(f'.{value:^25}.')   # .           hi            .
+print(f'.{value:-^25}.')  # .-----------hi------------.
+
+value = 1
+def some_function():
+    value = 10
+    return value
+print(value)
+some_function()
+print(value)
+# output 
+1 
+1 
+
+def print_args(*args):
+  for arg in args:
+    print(f'arg = {arg}')
+print_args('a', 'b', 'c')
+# 
+arg = a
+arg = b
+arg = c
+
+An arbitrary arguments list isn't of type list but rather is of type tuple. [IMMUTABLE]
+
+# module 
+def create_deck():
+  suits = ["Hearts", "Spades", "Clubs", "Diamonds"]
+  ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
+  deck = []
+  for  suit in suits:
+    for rank in ranks:
+      deck.append(f'{rank} of {suit}')
+  return deck
+# calling like below [module]
+import deck
+cards = deck.create_deck()
+for card in cards:
+  print(card)
+
+Which of the following statements is not a good reason to create a function? --> When you need to store information that will be used throughout your program.
+
+values = ["laptop", 7, "phone", 3, "dslr", 5]
+equipment = []
+for value in values:
+  if isinstance(value, str) == False:
+    continue
+  equipment.append(value)
+print(equipment)
+# ['laptop', 'phone', 'dslr']
+
+suits = ["Hearts", "Spades", "Clubs", "Diamonds"]
+ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
+for  suit in suits:
+  for rank in ranks:
+    print(f'{rank} of {suit}')
+
+# Choose randomly from a list
+import random
+numbers = [42, 77, 16, 101, 23, 8, 4, 15, 55]
+selected_number = random.choice(numbers)
+print(selected_number) # 101
+selected_numbers = random.choices(numbers, k=3)
+print(selected_numbers) # [77, 4, 8]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

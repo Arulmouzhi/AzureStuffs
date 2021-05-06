@@ -1,0 +1,236 @@
+git
+
+Introduction to Git: https://learn.datacamp.com/courses/introduction-to-git
+
+Git is a version control system that lets you manage and keep track of your source code history. 
+GitHub is a cloud-based hosting service that lets you manage Git repositories. 
+
+.git is hidden folder within repository.
+git status --> gives red/green colored commit kind of codes.
+git diff --> without any filenames will show you all the changes in your repository
+git diff filename --> to compare the file as it currently is to what you last saved
+git diff directory --> to show you the changes to the files in some directory
+
+git clone 
+git status 
+git add .
+git status 
+git commit -m "xyz"
+git commit --amend -m "new xyz"
+git commit --> sepate nano editor would open and asks us for typing multi line messages, ctrl+o=save and ctrl+x=exit
+git push origin <branch-name>
+git checkout -b <new-branch-name> --> create new branch and switch to it.
+git checkout <existing-branch-name> --> switch to existing branch.
+
+git log  --> to view the log of the project's history. Git automatically uses a pager to show one screen of output at a time. Press the space bar to go down a page or the 'q' key to quit.
+git log <path> --> git log data/southern.csv --> The log for a file shows changes made to that file; the log for a directory shows when files were added or deleted in that directory, rather than when the contents of the directory's files were changed.
+git show --> To view the details of a specific commit, you use the command git show with the first few characters of the commit's hash.
+git show HEAD~1 --> then refers to the commit before it, while HEAD~2 refers to the commit before that
+git annotate report.txt --> git annotate file
+
+How can I see what changed between two commits
+git diff abc123..def456
+git diff HEAD~1..HEAD~3
+
+git clean -n  --> to see untracked files
+git clean -f  --> to clean all untracked files 
+ls --> to see list of files after cleaning untracked files 
+
+git reset HEAD
+
+How can I undo changes to unstaged files?
+git checkout -- data/northern.csv 	--> git checkout -- filename
+
+git reset data/northern.csv
+git checkout -- data/northern.csv
+git log -2 data/western.csv --> last 2 versions
+git checkout abc123 data/northern.csv --> 
+
+cat data/western.csv --> to display the updated contents.
+git reset --> to remove all files from the staging area.
+git checkout -- . --> to completely reverse the benefit of 'git reset' [important]
+
+git branch --> to see all branches [it would show us current branch that is prefixed with '*']
+
+git diff revision-1..revision-2 shows the difference between two versions of a repository, 
+git diff branch-1..branch-2 shows the difference between two branches
+
+git checkout summary-statistics --> Switched to branch 'summary-statistics'
+git rm report.txt
+
+git merge summary-statistics master --> where git merge source destination 
+-->
+git status to see which file has conflicts.
+
+How can I create a brand new repository?
+git init project-name
+
+How can I create a copy of an existing repository?
+git clone <url>
+
+git clone /home/thunk/repo dental --> where path is same as url and dental is folder.
+
+A remote is like a browser bookmark with a name and a URL.
+git remote -v --> remote may seems dups and url's are different.
+
+You can add more remotes using:
+git remote add remote-name URL
+You can remove existing ones using:
+git remote rm remote-name
+
+git pull remote branch
+
+How do I restore an old version of a file?
+git log -3 report.txt shows you the last three commits involving report.txt
+git log -2 data/western.csv
+
+git checkout with the first few characters of a hash to restore the version of data/western.csv
+git checkout 
+
+hash is normally written as a 40-character hexadecimal string like 7c35a3ce607a14953f070f0f83b5d74c2296ef93, but most of the time, you only have to give Git the first 6 or 8 characters in order to identify the commit you mean.
+
+git log displays the overall history of a project or file, but Git can give even more information. 
+The command git annotate file shows who made the last change to each line of a file and when.
+
+git reset a directory. For example, git reset HEAD data will unstage any files from the data directory
+git reset to unstage everything
+
+A line starting with @@ that tells where the changes are being made
+
+git config --list
+--system: settings for every user on this computer.
+--global: settings for every one of your projects.
+--local: settings for one specific project.
+--> Config settings are useful for storing your name and email address (to identify you in commit logs), choosing your favorite text editor and diff view tools, and customizing things just how you like them.
+git config --global user.email rep.loop@datacamp.com
+
+.gitignore
+pdf --> no wildcards, means this is file
+*.pyc --> all .pyc files
+backup --> directory
+
+To compare the state of your files with those in the staging area, you can use git diff -r HEAD. 
+The -r flag means "compare to a particular revision", and HEAD is a shortcut meaning "the most recent commit".
+
+How can I push my changes to a remote repository?
+The complement of git pull is git push.
+
+git pull --no-edit origin master
+
+pull and then push 
+
+VCS - Version Control System 
+
+--things to know:
+To check our current git version? --> git --version       [git version 2.19.1.windows.1]
+git add -A --> All new and updated files are staged
+git remote -v --> A list of remote repositories and their URLs
+Suppose you needed to see a list of all files that had been modified or added to a specific commit over the course of a project. How would you accomplish this? --> Use the diff-tree command with the commit hash.
+git reset --soft HEAD^ --> It sets HEAD to the previous commit and leaves changes from the undone commit in the stage/index.
+git-bisect --> Use binary search to find the commit that introduced a bug
+git rebase -i HEAD~10 --> To list the last 10 commits and modify them with either the squash or fixup command
+Why would you use a pre-receive hook in your remote repository? --> To execute a script when a remote receives a push that is triggered before any refs are updated.
+to apply git configurations across your entire git environment --> --global 
+squash multiple commits together without using git merge --squash --> rebasing 
+A line starting with # serves as a comment.
+git commit -a -m "Made new changes" --> Adds all modified files to the staging area, then commits them with a message.
+Where are files stored before they are committed to the local repository? --> Staging Area 
+git rebase -i --> a list of all commits that will be moved before you perform a rebase.
+
+git bisect start
+git bisect bad g5f1402abc4b2a76b9719d911017c7j5
+git bisect good j7gaab6268350295550de7d587bc3jh8
+--> It performs a binary search using a known bad commit and known good commit to determine which commit introduced a bug
+
+you have several commits for a single task, what is the most efficient way to restructure your commit history --> Squash the related commits together into a single coherent commit.
+
+git push command : By default a push doesn't send tags to the remote repository.
+git push -u origin master --> then next time shorthand command --> git push 
+create a custom shortcut or command across your git environment --> Create an alias in the git config file
+command would let you modify your previous commit : --amend [will modify last commit message]
+best way to characterize the git commit structure : Data log 
+git rm --cached testfile.js --> testfile.js will be removed from the staging area and its changes no longer tracked.
+
+After you've successfully merged two branches and committed the changes, what is the next step in keeping your git structure organized? --> Run git rebase to move the current commit to its original location.
+
+You're in the middle of modifying a file when you're unexpectedly assigned an urgent bug fix on another branch. What would you do to temporarily save the work your doing locally without committing? --> Use git stash to save your work and come back later and reapply the stashed commit.
+
+git init --> to create a new git repository.
+
+While working on a feature branch you try to use "git rerere" to solve a recurring merge conflict but nothing is happening. What could be causing this issue? --> "rerere.enabled" isn't enable in the config file.
+
+Which setting determines what pager is used when Git pages output? --> core.pager 
+commit object contain : An SHA1 name, a 40-character string that uniquely identifies the commit object.
+Which option enables inclusion of committer name in custom log format : %cn 
+Which option enables inclusion of author name in custom log format : %an
+How many ways are present in Git to integrate changes from one branch into another : 2 [merge, rebase]
+Which user should be created first during setting up of SSH : git 
+Which command will list tags with the 1.4.2 series : git tag -I 'v1.4.2.*'
+benevolent dictator : integration manager.
+add : begins tracking of a new file
+HTTP - dumb protocol 
+Which key press returns a set of suggestions to pick from, when writing a Git command : TAB 
+Git : distributed version control system 
+clone : command gets a copy of an existing Git repository
+Git think of its data as : snapshot 
+Which version onwards did Git offer reversing a file back to what it looked like when last committed - 1.6 
+Which strategy is used by Git for merging two branches : recursive
+What does refs store : containing the hash of a commit object. SHA-1 value
+What Language is used in GIT : C 
+the extension of file which has the public key : pub 
+difference between initializing a normal repo and a bare repo : Bare repos do not come with working or checked-out source files.
+How many individual commits can a single repository have : any number of commits
+types of tags does Git support : lightweight and annotated
+After staging a series of changes to the index, which command could you use to review them prior to a commit : git diff --cached
+git stash drop command :  removes the most recent stash entry
+After mistakenly staging a file named myFile to the index, how would you remove it from the index to exclude it from your next commit --> Use git reset myFile.txt.
+How does Git internally manage branches : by creating a pointer to the most recent snapshot/commit for the branch.
+remote repository : a version of the repository hosted on the internet or network that is pushed to or pulled from by collaborators.
+After modifying some existing files in a repository, you decide to discard the changes. What command can you use : git checkout 
+After starting to merge a feature branch into your master branch, you encounter a merge conflict and decide you do not want to perform the merge. How can you stop the merge and restore to the pre-merge state : git merge --abort
+command correctly creates a lightweight tag : git tag v3.8.1
+main issue with using git rebase when working with multiple developers : Rebase deletes all commit history for the new feature branch.
+What Git workflow is used by teams that collaborate on a single branch and avoid creating long-lived development branches : Trunk-Based Development
+Which option on the git log command allows you to limit output to commits made after certain data : --since 
+delete unreachable objects older than a specified time from your project database : git prune --expire <time>
+What conflicts can occur when forcing a push after rebasing : The remote master branch could have existing changes overwritten
+How would you configure Git to abort a commit if a smoke test script fails : Create a pre-commit hook to trigger the script.
+Which use case is NOT a good candidate for a Git hook : state dependent environment changes 
+command can be used to remove the untracked files from the working directory : git clean -f 
+
+want to overwrite our local files -->
+git fetch --all
+git reset --hard origin/master
+
+You should never name a tag and a branch the same name!
+has a tag and branch both named push-notifications, which causes confusion when trying to print out given reference. How can you specify which branch you want to look at? -->
+use git show refs/head/push-notifications
+
+subversion(svn) is centralized vcs and git is distributed vcs.
+example of what kind of tag : git tag -a v1.4 -m "ABCD v1.5" --> annotated 
+difference between a soft reset (git reset --soft) and a hard reset (git reset –hard) : A soft reset only changes the commit that HEAD points to, while a hard reset resets the index and working tree to match the specified commit, discarding any changes.
+1. Master 2. Hotfix 3. Develop 4. Feature 5. Release
+What information does the git config file store : local and global repository options.
+version control : a system that shows, tracks, and controls changes to a set of files over time.
+difference between using the git stash and git stash pop commands: git stash creates a stash entry, while git stash pop places the saved state onto the working directory.
+Which command can be used to list the branches that have been merged into the currently checked-out branch: git branch --merged
+
+GitHub fundamentals:
+
+git --> local repository [local empty repo --> git init]
+Github --> remote repository [code repositories: bitbucket,subversion(svn),Github etc]
+
+add --> local to staging 
+commit --> staging to local repo 
+push --> send from local to remote repo 
+pull --> fetch from remote to local repo 
+merge/rebase --> fetch from local repo to workspace 
+
+git add <file1> <file2> <file3>
+git rm --cached <file> --> to remove files from staging area.
+
+branch is version of our repository 
+the default branch name in git is master/main
+each repos can have one or more branches.
+
+

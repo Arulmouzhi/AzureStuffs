@@ -1,0 +1,317 @@
+PySpark is the Python API for Spark. 
+
+SparkContext: sc - class - Main entry point for Spark functionality. Only one SparkContext should be active per JVM. 
+	You must stop() the active SparkContext before creating a new one. 
+SparkConf: constructor - For configuring Spark. Once a SparkConf object is passed to Spark, it is cloned and can no longer be modified by the user.
+
+SparkContext : your connection to the cluster.
+SparkSession : spark - your interface with that connection.
+
+sc.version : 2.3.1 [is same as spark.version]
+
+Spark's core data structure is the Resilient Distributed Dataset (RDD). 
+Spark DataFrame was designed to behave a lot like a SQL table.
+DataFrames are also more optimized for complicated operations than RDDs.
+
+Operations using DataFrames are automatically **optimized**. [Dataframe pros over RDD's]
+
+SparkSession.builder.getOrCreate() method - This returns an existing SparkSession if there's already one in the environment, or creates a new one if necessary!
+SparkSession has an attribute called catalog which lists all the data inside the cluster.
+column = variables & rows=observations
+
+Spark DataFrame to pandas DataFrame : .toPandas()
+
+pandas DataFrame to Spark DataFrame : .createDataFrame()
+.createTempView() --> catalog
+.createOrReplaceTempView()
+
+parquet file format : 
+write once & read many times. 
+stored column-wise data[Fast to query column subsets]. 
+structured, defined schema. [Fields and data type fixed]
+
+df.columns --> for a list of columns 
+len(df.columns) --> for the number of columns 
+df.count() --> for row counts 
+df.dtypes --> creates a list of columns and their data type tuples
+df.describe().show() --> to display summary statistics like count,mean,stddev,min,max [we can run on whole DataFrame, single column or list of columns]
+
+Exploratory Data Analysis, or EDA: 
+pyspark.sql.functions.mean(col) 
+-->
+df.agg({'col':'mean'}).collect()
+pyspark.sql.functions.skewness(col) 
+pyspark.sql.functions.min(col) 
+cov(col1,col2)
+-->
+df.cov(col1,col2)
+corr(col1,col2)
+
+seaborn - python data visualization libarary[statistical]. 
+
+df.sample(False,0.5,42).count() 
+--> # sample(withReplacement,fraction,seed=None).count()
+
+seaborn.distplot(a) --> a: Series, 1d-array, or list.  
+-->
+import seaborn as sns 
+sns.distplot(pandas.df)
+
+lmplot --> linear plot 
+-->
+import seaborn as sns 
+s_df=df.select(['col1'],['col2'])
+s_df=s_df.sample(False,0.5,42)
+pandas_df=s_df.toPandas()
+# plot it 
+sns.lmplot(x='col1',y='col2',data=pandas_df)
+
+# Creating linear model plots helps us visualize if variables have relationships with the dependent variable.
+
+
+
+--------------------------------------code start--------------------------------------------------------------
+# Import SparkSession from pyspark.sql
+from pyspark.sql import SparkSession
+
+# Create my_spark
+my_spark = SparkSession.builder.getOrCreate()
+
+# Print my_spark
+print(my_spark)
+
+# Print the tables in the catalog
+print(spark.catalog.listTables())
+
+# Don't change this query
+query = "FROM flights SELECT * LIMIT 10"
+
+# Get the first 10 rows of flights
+flights10 = spark.sql(query)
+
+# Show the results
+flights10.show()
+
+# Don't change this query
+query = "SELECT origin, dest, COUNT(*) as N FROM flights GROUP BY origin, dest"
+
+# Run the query
+flight_counts = spark.sql(query)
+
+# Convert the results to a pandas DataFrame [move data from Spark to pandas]
+pd_counts = flight_counts.toPandas()
+
+# Print the head of pd_counts
+print(pd_counts.head())
+
+# Create pd_temp [to create a pandas DataFrame of random numbers]
+pd_temp = pd.DataFrame(np.random.random(10))
+
+# Create spark_temp from pd_temp [pandas DataFrame to Spark DataFrame]
+spark_temp = spark.createDataFrame(pd_temp)
+
+# Examine the tables in the catalog
+print(spark.catalog.listTables())
+
+# Add spark_temp to the catalog
+spark_temp.createOrReplaceTempView("temp")
+
+# Examine the tables in the catalog again
+print(spark.catalog.listTables())
+
+# Don't change this file path
+file_path = "/usr/local/share/datasets/airports.csv"
+
+# Read in the airports data [same is applicable for .json as well as .parquet]
+airports = spark.read.csv(file_path,header=True)
+
+# Show the data
+airports.show()
+
+# Read the file into a dataframe
+df = spark.read.parquet("Real_Estate.parq")
+
+# Print columns in dataframe [for listing the list of columns]
+print(df.columns)
+
+# Select our dependent variable
+Y_df = df.select(['SALESCLOSEPRICE'])
+
+# Display summary statistics [ df.describe(['SALESCLOSEPRICE']).show()  ]
+Y_df.describe().show() 
+
+# Data Validation Function
+def check_load(df, num_records, num_columns):
+  # Takes a dataframe and compares record and column counts to input
+  # Message to return if the critera below aren't met
+  message = "Validation Failed"
+  # Check number of records
+  if num_records == df.count():
+    # Check number of columns
+    if num_columns == len(df.columns):
+      # Success message
+      message = "Validation Passed"
+  return message
+
+# Print the data validation message
+print(check_load(df, 5000, 74))
+
+# create list of actual dtypes to check
+actual_dtypes_list = df.dtypes
+print(actual_dtypes_list)
+
+# Iterate through the list of actual dtypes tuples
+for attribute_tuple in actual_dtypes_list:
+  
+  # Check if column name is dictionary of expected dtypes
+  col_name = attribute_tuple[0]
+  if col_name in validation_dict:
+
+    # Compare attribute types
+    col_type = attribute_tuple[1]
+    if col_type == validation_dict[col_name]:
+      print(col_name + ' has expected dtype.')
+	  
+# It makes sense that homes with larger living areas would be correlated with more expensive homes!
+
+# Name and value of col with max corr
+corr_max = 0
+corr_max_col = columns[0]
+
+# Loop to check all columns contained in list
+for col in columns:
+    # Check the correlation of a pair of columns
+    corr_val = df.corr(col, 'SALESCLOSEPRICE')
+    # Logic to compare corr_max with current corr_val
+    if corr_val > corr_max:
+        # Update the column name and corr value
+        corr_max = corr_val
+        corr_max_col = col
+
+print(corr_max_col)	  
+	  
+# Select a single column and sample and convert to pandas
+sample_df = df.select(['LISTPRICE']).sample(False, 0.5, 42)
+pandas_df = sample_df.toPandas()
+
+# Plot distribution of pandas_df and display plot
+sns.distplot(pandas_df)
+plt.show()
+
+# Import skewness function
+from pyspark.sql.functions import skewness
+
+# Compute and print skewness of LISTPRICE
+print(df.agg({'LISTPRICE': 'skewness'}).collect())	 
+
+# now we can see that as LivingArea increases, the price of the home increases at a relatively steady rate.
+
+# Select a the relevant columns and sample
+sample_df = df.select(['SALESCLOSEPRICE', 'LIVINGAREA']).sample(False, 0.5, 42)
+
+# Convert to pandas dataframe
+pandas_df = sample_df.toPandas()
+
+# Linear model plot of pandas_df
+sns.lmplot(x='LIVINGAREA', y='SALESCLOSEPRICE', data=pandas_df)
+plt.show()  
+	  
+--------------------------------------code end--------------------------------------------------------------	  
+
+############# spark sql in python
+
+# Load a dataframe from file 
+df=spark.read.csv(filepath, header=True)
+
+# create sql table
+df.createOrReplaceTempView("table_name")
+
+#run a query 
+spark.sql(" select * from table_name where col_name='col_value' ").show()
+
+# inspecting table schema 
+result = spark.sql("SHOW COLUMNS FROM table_name")
+result = spark.sql("SELECT * FROM table_name LIMIT 0")
+result = spark.sql("DESCRIBE table_name")
+result.show() # or
+print(result.columns) 
+
+# window function : Each row uses the value of other rows to calculate its value. eg., lead() lag() functions etc., sum() row_number() over (partition by ... order by ...)
+
+query="""
+SELECT train_id,station,time,
+LEAD(time,1) OVER (ORDER BY time) AS time_next 
+--> SUM(diff_min) OVER (PARTITION BY train_id ORDER BY time) AS running_total
+FROM sched 
+WHERE tran_id=324
+"""
+ 
+spark.sql(query).show()
+
+#
+df.columns 
+df.show(5)
+df.select('col1', 'col2').show(5)
+df.select(df.col1, df.col2).show(5) # dot notation 
+#or 
+from pyspark.sql.functions import col 
+df.select(col('col1') , col('col2'))
+
+# column renaming 
+df.select('col1', 'col2').withColumnRenamed('col2', 'col2renamed').show(5) #or 
+df.select( col('col2').alias('col2aliased'),'col1').limit(5).show()
+
+#### please dont do like below:
+df.select('train_id', df.station, col('time'))
+
+# Give the identical result in each command
+spark.sql('SELECT train_id, MIN(time) AS start FROM schedule GROUP BY train_id').show()
+df.groupBy('train_id').agg({'time':'min'}).withColumnRenamed('min(time)', 'start').show()
+
+# Print the second column of the result
+spark.sql('SELECT train_id, MIN(time), MAX(time) FROM schedule GROUP BY train_id').show()
+result = df.groupBy('train_id').agg({'time':'min', 'time':'max'})
+result.show()
+print(result.columns[1])
+
+# Write a SQL query giving a result identical to dot_df
+query = "SELECT train_id, MIN(time) as start, MAX(time) as end FROM schedule group by train_id"
+sql_df = spark.sql(query)
+sql_df.show()
+
+# Obtain the identical result using dot notation 
+dot_df = df.withColumn('time_next', lead('time', 1)
+        .over(Window.partitionBy('train_id')
+        .orderBy('time')))
+		
+# Create a SQL query to obtain an identical result to dot_df
+query = """
+SELECT *, 
+(UNIX_TIMESTAMP(LEAD(time, 1) OVER (PARTITION BY train_id ORDER BY time),'H:m') 
+ - UNIX_TIMESTAMP(time, 'H:m'))/60 AS diff_min 
+FROM schedule 
+"""
+sql_df = spark.sql(query)
+sql_df.show()
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
