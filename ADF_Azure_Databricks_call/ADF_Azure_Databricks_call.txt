@@ -1,0 +1,12 @@
+adf --> azure databricks call
+
+1. Create adf instance as well as azure databricks workspace well before. 
+	[adf via powershell: https://github.com/Arulmouzhi/AzureStuffs/blob/main/create_new_azure_datafactory_instance_through_Powershell.ps1]
+2. In azure databricks, GENERATE access token and COPY the token. Also create the notebook and provide required script [sample scala script(Attached): sample sql query for storing data in azure sql db].
+   COPY the file path of the notebook.
+3. In adf, create linked service for azure databricks by using that databrick's access token and in pipeline, use azure databricks notebook and provide notebook path.
+
+Note - If we are using existing cluster, then 2 things to note: 
+1.if we trigger azure databricks notebook while existing cluster is off, adf job will automatically switch on the cluster. [the trade-off here is some extra time like 30 seconds]
+2. since it automatically triggers on, the best part we can do is to switch on the Autopilot option for that cluster and set 'terminate the cluster after x mins of activity' option. eg., 20 mins.
+
