@@ -1,0 +1,31 @@
+CI CD steps for Azure Logic Apps
+
+1. Create 1 Azure logic App for dev [in visual studio (i've used 2017) ]. New project-->Visual C# --> Web --> Cloud --> Azure Resource Group --> Logic App as template and click Ok.
+	Right click on the Resource Group and select Deploy --> New --> [Create new RG and choose it], provide logic app name and deploy.
+	Once we received the message in output window ["Successfully deployed template 'logicapp.json' to resource group '<RG name>'."], 
+	then we can go for the deployed file path,	eg., C:\Users\<PC name>\source\repos\AzureResourceGroup3\AzureResourceGroup3\bin\Debug\staging\AzureResourceGroup3\ +........
+	and copy 3 files [1.Deploy-AzureResourceGroup.ps1 ; 2.LogicApp.json ; 3.LogicApp.parameters.json]
+	By this way, we created blank azure logic app.
+	[Note: in visual studio(2017 we used) , View--> Cloud Explorer, we can able to see azure resources once we connected with our account]
+2. Create Github new repos for test[open Github account if don't have any - free only] and use 'git' to locally clone it. [git clone <url>] . Also go to Marketplace and install microsoft's 'Azure pipelines'.
+    Paste those copied 3 files in the local repos and push to remote repos.
+3. Go to Azure Devops [dev.azure.com] and create 1 test project under organization. within organization's project, go to Pipelines-->pipelines--> New pipeline.
+   <follow CI folder pics attached> In 'ARM template deployment' option, choose required 'Subscription' under both Azure Resource Manager connection+Subscription options.
+   Also provide required RG,location, then Template=LogicApp.json and Template parameters=LogicApp.parameters.json 
+   In Copy Files task, choose Target Folder=$(build.artifactstagingdirectory)
+   Enable Continuous Integration under Triggers Tab. [branch filter eg., include master]
+4. Within project, go to Pipelines-->Releases--> + New Release Pipeline.
+	Select a template as Empty job and give stage name and click save and ok. then Add an artifact and choose 'CI pipeline' there and click Add.
+	Select tasks within stage, under Agent Job, choose microsoft's  'ARM template deployment' and choose required 'Subscription' under both Azure Resource Manager connection+Subscription options.
+   Also provide required RG,location, then Template=$(System.DefaultWorkingDirectory)/_TestProject-CI (1)/drop/LogicApp.json 
+   and Template parameters=$(System.DefaultWorkingDirectory)/_TestProject-CI (1)/drop/LogicApp.parameters.json
+    Enable 'Continuous deployment trigger' in artifact section with no filters.
+	Select Trigger as 'After release' under 'Prod-CD_4m_Dev-CI' stage's 'Pre-deployment conditions'.
+	During PROD deployment, it will auto-create even if the resource is not there, [anyway we have created resource group for PROD as minimum well before]
+   <check CD folder pic attached>
+   
+-- To check:
+Make code changes in local[if we feel more comfortable in azure portal's designer view, then develop there and then in code view, copy code (actions,triggers,parameters etc., as you changed) ] and paste in to our local branch and raise PR for master/main. 
+Once PR is approved, CI will initiate and after successful CI step, CD will initiate and deploy codes in 'Prod-CD_4m_Dev-CI' stage.
+
+Note : the above are applicable for 1 Azure Logic App alone. For >1, just exploring, will update soon.
