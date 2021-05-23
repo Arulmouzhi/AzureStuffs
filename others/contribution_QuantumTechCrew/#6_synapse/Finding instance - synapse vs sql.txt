@@ -1,0 +1,25 @@
+Q:
+Out of below 2 servers, We need to find which one is 'Microsoft Azure Synapse Analytics'? Other might be 'SQL Database'.
+1. testservername0001.database.windows.net
+2. testservername0002.database.windows.net
+
+How to find easily?
+
+Note - 
+For "Dedicated SQL pool (formerly SQL DW)" , the endpoint would be same as SQL Database ".database.windows.net" [Still pricing tier is different: DTU/vCore Vs cDWU]
+Under "Azure Synapse Workspace" - created "Dedicated SQL pool", the endpoint would be ".sql.azuresynapse.net"
+Under "Azure Synapse Workspace" - created "Serverless SQL pool", the endpoint would be "-ondemand.sql.azuresynapse.net"
+
+A: 
+By knowing "Database Engine edition of the instance of SQL Server installed on the server.", we can find this.
+How to know?
+Run below SQL Query: 
+SELECT SERVERPROPERTY ('EngineEdition'); 
+that would return integer value:
+5 => means "SQL Database"
+6 => means "Microsoft Azure Synapse Analytics"
+8 => means "Azure SQL Managed Instance"
+11 => means "Azure Synapse serverless SQL pool"
+
+Check the full list here: [Property: EngineEdition]
+https://docs.microsoft.com/en-us/sql/t-sql/functions/serverproperty-transact-sql?view=sql-server-ver15#arguments
