@@ -1,0 +1,25 @@
+Importing pandas library
+To read file and creating a DataFrame
+To display first 1000 rows
+To check the type of the DataFrame + column in the DataFrame
+To check the first/last n entries + default + To check the first/last n entries on the DataFrame Column
+To check the dimensions of our data
+To view a summary of the data set/DataFrame
+To view descriptive statistics about the dataset + [special note]
+To return a Series containing the number of unique values
+DataFrame Index
+To check the column names of the dataset/DataFrame + to know row/column count of the dataset/DataFrame
+To rename columns - multiple
+To create a copy of our DataFrame
+To add a column with default value
+To add multiple columns with default values
+To add n rows in DataFrame
+To remove the rows + columns 
+To Select data to bring all columns + selected columns + to apply filter condition + bring selected columns(optional)
+To select the data contained in the first row and the first column + entire row + last column + multiple rows and columns combo 
+To Detect missing values as data + count + proportions
+To Remove missing values
+To Fill the missing values with default value + median value 
+Histograms - to display the distribution of data
+Scatter plots - to visualize the relationship between two variables
+To save our DataFrame as a file 
