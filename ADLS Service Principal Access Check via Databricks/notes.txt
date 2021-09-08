@@ -1,0 +1,17 @@
+via the attached re-runnable python script,
+We can easily test the accesses like below for files and folders in dynamic way (within some secs). + We can also test the working of Key Vaults as well.
+#1. Write
+#2. Copy
+#3. Read
+#4. Create Directory
+#5. Move
+#6. Remove
+
+Provide the inputs like below and test the Service principal access.
+ContainerName
+StorageAccountName
+Folder, want to test the accesses
+ScopeName, the name of the scope provided in azure databricks while linking Key Vault
+ServicePrincipalID, the respective Key Vault Name
+ServicePrincipalKey, the respective Key Vault Name
+TenantID, the respective Key Vault Name
