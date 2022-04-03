@@ -1,0 +1,9 @@
+--synapse dedicated/serverless
+select 'hi\helo\how are you' as tst
+
+--databricks {via sql magic command}
+%sql
+select 'hi\\helo\\how are you' as tst
+
+--databricks {spark sql via python}
+display( spark.sql(f""" select 'hi\\\\helo\\\\how are you' as tst """) )
