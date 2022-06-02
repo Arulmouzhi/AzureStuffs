@@ -3,7 +3,7 @@ USE MASTER
 CREATE LOGIN <login_name> with password='<password>';
 
 --2. Create user at Database level (recommended to keep both user and login names as same, to avoid confusions)
-USE az21p1_scmanalytics_serverless
+USE <db_name>
 CREATE USER <user_name> FOR LOGIN <login_name>;
 
 --3. GRANT REFERENCES ON DATABASE SCOPED CREDENTIAL (create link between DB scoped credential and User) - at Database level
